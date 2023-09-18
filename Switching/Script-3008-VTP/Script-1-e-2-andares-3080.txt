@@ -1,0 +1,33 @@
+SCRIPT 1 e 2 ANDAR - 30/08 (VTP)
+
+enable
+conf t 
+line console 0
+password (senha)
+login
+
+ctrl c
+exit
+
+enable
+conf t
+hostname (oq vc escolher)
+interface g0/2
+switchport mode trunk
+switchport trunk allowed vlan all
+do wr
+
+interface range f0/7-24 (por boas praticas desativamos as portas que n usamos)
+shutdown
+description DESATIVADO PELA GABI (por boas praticas colocamos quem desativou)
+do wr
+
+interface g0/2
+description TRUNK-CPD (no caso, o nome da interface)
+do wr
+
+# FAZ O CPD ATE O SERVER #
+
+# FAZ O VTP CLIENTE AQUI #
+
+do show vlan brief (para conferir se o vtp funcionou corretamente)

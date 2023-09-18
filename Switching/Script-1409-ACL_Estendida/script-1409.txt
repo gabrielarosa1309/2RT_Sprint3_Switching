@@ -1,0 +1,22 @@
+-- STANDARD TRABALHA NA CAMADA DE REDE, ESTENDIDA NA CAMADA DE TRANSPORTE
+
+SCRIPT 14/09
+
+!RT0
+
+en
+conf t
+access-list 100 permit icmp host 192.168.10.10 host 200.200.200.2
+ip access-list extended 100
+11 permit tcp host 192.168.10.10 host 200.200.200.2
+20 permit icmp host 192.168.20.10 host 200.200.200.2
+21 deny tcp host 192.168.20.10 host 200.200.200.2
+30 deny icmp host 192.168.30.10 host 200.200.200.2
+31 deny tcp host 192.168.30.10 host 200.200.200.2
+do show acc
+
+
+
+!VLAN 10
+
+ssh -l redes 200.200.200.2

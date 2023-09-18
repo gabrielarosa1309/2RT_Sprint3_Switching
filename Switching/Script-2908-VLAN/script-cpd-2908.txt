@@ -1,0 +1,38 @@
+SCRIPT CPD 29/08
+
+Switch>enable
+Switch#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#interface g0/1
+Switch(config-if)#switchport mode trunk 
+Switch(config-if)#switchport trunk allowed vlan all
+Switch(config-if)#description TRUNK-1ANDAR
+Switch(config-if)#interface g0/2
+Switch(config-if)#switchport mode trunk 
+Switch(config-if)#switchport trunk allowed vlan all
+Switch(config-if)#description TRUNK-2ANDAR
+Switch(config-if)#do wr
+Building configuration...
+[OK]
+Switch(config-if)#do show runn
+
+
+
+
+tem q aparecer algo parecido com isso:
+
+interface GigabitEthernet0/1
+ description TRUNK-1ANDAR
+ switchport mode trunk
+!
+interface GigabitEthernet0/2
+ description TRUNK-2ANDAR
+ switchport mode trunk
+!
+
+
+
+por boas praticas, devemos desligar as portas q n usamos:
+
+Switch(config-if)#int range f0/1-24
+Switch(config-if-range)#shutdown

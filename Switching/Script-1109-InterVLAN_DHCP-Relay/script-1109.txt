@@ -1,0 +1,142 @@
+!SW1
+
+enable
+conf t 
+hostname SW1
+int range f0/1-6
+no shutdown
+int range f0/8-24
+shutdown
+exit
+
+vlan 10
+name RH
+vlan 20
+name FINANCEIRO
+vlan 30
+name TI
+vlan 100
+name DHCPSERVER
+int range g0/1-2
+sw mode trunk
+sw trunk allowed vlan 10,20,30,100
+int range f0/1-2
+sw mode access 
+sw access vlan 10
+int range f0/3-4
+sw mode access 
+sw access vlan 20
+int range f0/5-6
+sw mode access 
+sw access vlan 30
+int g0/2
+sw mode access
+sw access vlan 100
+do wr
+
+
+
+
+!RT1
+
+enable
+conf t
+hostname RT1
+int g0/1
+no shut
+int g0/1.10
+encap dot1q 10
+ip add 192.168.10.254 255.255.255.0
+int g0/1.20
+encap dot1q 20
+ip add 192.168.20.254 255.255.255.0
+int g0/1.30
+encap dot1q 30
+ip add 192.168.30.254 255.255.255.0
+int g0/1.100
+encap dot1q 100
+ip add 192.168.100.254 255.255.255.0
+do wr
+exit
+int g0/1.10
+ip helper-address 192.168.100.10
+int g0/1.20
+ip helper-address 192.168.100.10
+int g0/1.30
+ip helper-address 192.168.100.10
+int g0/1.100
+ip helper-address 192.168.100.10
+
+ip route 192.168.40.0 255.255.255.0 172.16.0.2 
+ip route 192.168.50.0 255.255.255.0 172.16.0.2 
+ip route 192.168.60.0 255.255.255.0 172.16.0.2 
+
+
+
+
+!SW2
+
+enable
+conf t 
+hostname SW1
+int range f0/1-6
+no shutdown
+int range f0/8-24
+shutdown
+exit
+
+vlan 40
+name ENFERMARIA
+vlan 50
+name RESTAURANTE
+vlan 60
+name DIRETORIA
+vlan 100
+name DHCPSERVER
+
+int range g0/2
+sw mode trunk
+sw trunk allowed vlan 40,50,60
+int range f0/1-2
+sw mode access 
+sw access vlan 40
+int range f0/3-4
+sw mode access 
+sw access vlan 50
+int range f0/5-6
+sw mode access 
+sw access vlan 60
+do wr
+
+
+
+!RT2
+
+enable
+conf t
+hostname RT2
+int g0/1
+no shut
+int g0/1.40
+encap dot1q 40
+ip add 192.168.40.254 255.255.255.0
+int g0/1.50
+encap dot1q 50
+ip add 192.168.50.254 255.255.255.0
+int g0/1.60
+encap dot1q 60
+ip add 192.168.60.254 255.255.255.0
+do wr
+exit
+
+int g0/1.40
+ip helper-address 192.168.100.10
+int g0/1.50
+ip helper-address 192.168.100.10
+int g0/1.60
+ip helper-address 192.168.100.10
+
+ip route 192.168.10.0 255.255.255.0 172.16.0.1 
+ip route 192.168.20.0 255.255.255.0 172.16.0.1 
+ip route 192.168.30.0 255.255.255.0 172.16.0.1 
+ip route 192.168.100.0 255.255.255.0 172.16.0.1 

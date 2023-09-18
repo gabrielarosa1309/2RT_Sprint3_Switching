@@ -1,0 +1,66 @@
+Gabriela Ramos, 2RT
+
+!SW1
+
+en
+conf t
+ip default-gateway 172.17.99.1
+int range f0/11-17
+switchport mode access
+switchport access vlan 10
+ex
+int range f0/18-24
+switchport mode access
+switchport access vlan 20
+ex
+int range f0/6-10
+switchport mode access
+switchport access vlan 30
+ex
+int g0/1
+switchport mode trunk
+switchport trunk allowed vlan all
+switchport access vlan 88
+switchport trunk native vlan 88
+ex
+int vlan 99
+ip address 172.17.99.10 255.255.255.0
+ex
+int range f0/1-5, g0/2
+shutdown
+ex
+do wr
+
+
+!R1
+
+en
+conf t
+int range g0/0-1
+no shutdown
+ex
+int g0/0
+ip address 172.17.25.2 255.255.255.252
+ex
+int g0/1.10
+encapsulation dot1Q 10
+ip address 172.17.10.1 255.255.255.0
+ex
+int g0/1.20
+encapsulation dot1Q 20
+ip address 172.17.20.1 255.255.255.0
+ex
+int g0/1.30
+encapsulation dot1Q 30
+ip address 172.17.30.1 255.255.255.0
+ex
+int g0/1.88
+encapsulation dot1Q 88
+ip address 172.17.88.1 255.255.255.0
+encapsulation dot1q 88 native
+ex
+int g0/1.99
+encapsulation dot1Q 99
+ip address 172.17.99.1 255.255.255.0
+ex
+do wr

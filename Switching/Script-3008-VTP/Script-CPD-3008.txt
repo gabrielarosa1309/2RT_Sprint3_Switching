@@ -1,0 +1,43 @@
+SCRIPT CPD - 30/08
+
+enable 
+conf t
+hostname CPD (nome do host)
+interface range g0/1-2 
+switchport mode trunk
+switchport trunk allowed vlan all
+do wr
+exit
+
+interface g0/1
+description TRUNK-1ANDAR
+interface g0/2
+description TRUNK-2ANDAR
+do wr
+
+# VTP SERVER #
+vtp version 2
+vtp mode server
+vtp domain (nome do dominio)
+vtp password (senha do dominio)
+do wr
+
+# VTP CLIENTE #
+vtp version 2
+vtp mode client
+vtp domain (nome do dominio)
+vtp password (senha do dominio)
+do wr
+
+# VOLTA PRO CONFIG #
+
+vlan 10
+name (nome da vlan)
+vlan 20
+name (nome da vlan)
+vlan 30
+name (nome da vlan)
+do wr
+
+* O comando no vlan (numero da vlan) apaga
+

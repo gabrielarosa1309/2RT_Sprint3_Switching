@@ -1,0 +1,7 @@
+SCRIPT AULA 29/08
+
+- Configuramos os switches do primeiro e do segundo andar
+- Configuramos o switch CPD
+- Configuramos os IPs dos pcs e testamos os pings
+
+*show vlan brief mostra todas as vlans

@@ -1,0 +1,7 @@
+SCRIPT TERREO - 30/08
+
+# MODE TRANSPARENT #
+vtp version 2
+vtp mode transparent
+vtp domain
+vtp password

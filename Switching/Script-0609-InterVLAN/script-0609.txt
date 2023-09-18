@@ -1,0 +1,77 @@
+SCRIPT 06/09
+
+WINX
+enable
+conf t 
+vtp version 2
+vtp mode server
+vtp domain redes
+vtp password redes
+interface range f0/22-24
+channel-group 1 mode desirable
+exit
+interface range f0/10-12
+channel-group 2 mode active
+do wr
+vlan 10
+name RH
+vlan 20
+name FINANCEIRO
+vlan 30
+name TI
+interface port-channel 1
+switchport mode trunk
+switchport trunk allowed vlan all
+interface port-channel 2
+switchport mode trunk
+switchport trunk allowed vlan all
+--DEPOIS DO RT
+enable
+conf t
+interface g0/1
+switchport mode trunk
+switchport trunk allowed vlan all
+
+A - B
+enable
+conf t 
+vtp version 2
+vtp mode client
+vtp domain redes
+vtp password redes
+interface range f0/22-24 --- A
+channel-group 1 mode desirable
+interface range f0/10-12 --- B
+channel-group 2 mode active
+do show ip in brief | in up
+interface port-channel 1 --- A
+switchport mode trunk
+switchport trunk allowed vlan all 
+interface port-channel 2 --- B
+switchport mode trunk
+switchport trunk allowed vlan all 
+interface range f0/1-2
+switchport mode access
+switchport access vlan 10
+interface range f0/3-4
+switchport mode access
+switchport access vlan 20
+interface range f0/5-6
+switchport mode access
+switchport access vlan 30
+
+RT
+enable
+conf t
+interface g0/0
+no shutdown
+do wr
+interface g0/0.10
+encapsulation dot1q 10
+ip address 192.168.10.254 255.255.255.0
+interface g0/0.20
+encapsulation dot1q 20
+ip address 192.168.20.254 255.255.255.0
+interface g0/0.30
+encapsulation dot1q 30
+ip address 192.168.30.254 255.255.255.0

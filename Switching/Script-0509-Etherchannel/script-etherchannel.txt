@@ -1,0 +1,92 @@
+SCRIPT ETHERCHANNEL - 05/09
+
+- sw-a (com as portas inicialmente laranjinhas)
+
+enable
+show spanning-tree
+show ip interface brief | include up
+conf t
+interface range f0/1-4
+channel-group 1 mode active
+do wr
+
+
+- sw-b (com as portas inicialmente verdinhas)
+
+enable
+show spanning-tree
+conf t 
+interface range f0/1-4
+channel-group 1 mode active
+
+
+- volta pro sw-a
+
+do show spanning-tree
+do show runn 
+
+
+- foram criadas as F0/10-13
+
+
+- volta pro sw-a
+
+do show ip interface brief | include up
+exit
+interface range f0/10-13
+channel-group 2 mode auto (prestar atencao no protocolo - LACP ou PAGP)
+do wr
+
+
+- sw-c
+
+enable
+conf t
+interface range f0/10-13
+channel-group 2 mode desirable]
+
+
+- volta pro switch q tiver com as portas fechadas
+
+enable 
+conf t 
+interface range f0/21-24
+channel-group 6 mode on
+do wr
+
+
+- agora volta pro outro switch do mesmo grupo
+
+conf t
+interface range f0/21-24
+channel-group 6 mode on
+do wr
+
+- volta pro sw-a (que esta com portinhas bloqueadas)
+
+enable
+conf t
+interface port-channel 1
+switchport mode trunk
+switchport trunk allowed vlan all
+
+- volta pro sw-b (ou o que compartilha o mesmo grupo)
+
+enable
+show runn (pra ter certeza)
+interface port-channel 1
+shutdown
+
+
+SCRIPT DA ATIVIDADE COM SWITCH
+
+enable
+conf t
+interface range f0/1-4
+channel-group 1 mode active
+interface port-channel 1
+switchport mode trunk
+switchport trunk allowed vlan all
+do wr
+
+
